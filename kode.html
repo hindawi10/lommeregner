@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <title>Fake Lommeregner</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f0f0f0;
+    }
+    .calculator {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    input {
+      width: 100%;
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      padding: 10px;
+      text-align: left;
+    }
+    button {
+      font-size: 1.2em;
+      padding: 10px;
+      margin: 5px;
+      width: 60px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <input type="text" id="display" placeholder="Skriv her eller brug knapper" autocomplete="off" />
+    <br>
+    <button onclick="append('1')">1</button>
+    <button onclick="append('2')">2</button>
+    <button onclick="append('3')">3</button>
+    <button onclick="append('+')">+</button>
+    <br>
+    <button onclick="append('4')">4</button>
+    <button onclick="append('5')">5</button>
+    <button onclick="append('6')">6</button>
+    <button onclick="append('-')">-</button>
+    <br>
+    <button onclick="append('7')">7</button>
+    <button onclick="append('8')">8</button>
+    <button onclick="append('9')">9</button>
+    <button onclick="append('*')">*</button>
+    <br>
+    <button onclick="append('0')">0</button>
+    <button onclick="append('.')">.</button>
+    <button onclick="showHelloWorld()">=</button>
+    <button onclick="append('/')">/</button>
+    <br>
+    <button onclick="clearDisplay()">C</button>
+  </div>
+
+  <!-- Lyd til klik og resultat -->
+  <audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3"></audio>
+  <audio id="resultSound" src="https://www.soundjay.com/misc/sounds/bell-ringing-01.mp3"></audio>
+
+  <script>
+    const input = document.getElementById('display');
+    const clickSound = document.getElementById('clickSound');
+    const resultSound = document.getElementById('resultSound');
+
+    function append(char) {
+      clickSound.play();
+      input.value += char;
+    }
+
+    function clearDisplay() {
+      clickSound.play();
+      input.value = '';
+    }
+
+    function showHelloWorld() {
+      clickSound.play();
+      input.disabled = true; // deaktiver input midlertidigt
+      input.value = 'Beregner...';
+      
+      setTimeout(() => {
+        resultSound.play();
+        input.value = 'Hello World';
+        input.disabled = false;
+      }, 1000); // 1 sekund "fake beregning"
+    }
+
+    // Håndter Enter-tast
+    input.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        showHelloWorld();
+      }
+    });
+  </script>
+</body>
+</html>
